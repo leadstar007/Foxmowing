@@ -1,2 +1,2 @@
 # Foxmowing
-This repository is fo a Fox Mowing Franchise Software
+This repository is for a Fox Mowing Franchise Software
