@@ -1,0 +1,6 @@
+---
+interface Props { items: { q: string; a: string }[]; large?: boolean; }
+const { items, large = false } = Astro.props;
+---
+<div class:list={["faq-list", { large }]}>{items.map((item) => <details><summary>{item.q}<span aria-hidden="true">+</span></summary><p>{item.a}</p></details>)}</div>
+

@@ -1,0 +1,40 @@
+# Directories copied recursively
+src/
+public/
+migrations/
+tests/
+docs/
+
+# Active root files
+.gitignore
+.nvmrc
+README.md
+astro.config.mjs
+package.json
+pnpm-lock.yaml
+pnpm-workspace.yaml
+todo.md
+tsconfig.json
+vitest.config.ts
+wrangler.jsonc
+
+# Active scripts
+scripts/check-links.mjs
+scripts/optimize-fox-hero.mjs
+
+# Preserved from the remote repository rather than copied from the project
+LICENSE
+
+# Deliberately excluded retired migration-reference trees and tooling
+client/
+server/
+shared/
+drizzle/
+patches/
+components.json
+drizzle.config.ts
+template.json
+tsconfig.node.json
+vite.config.ts
+
+# Environment values are configured out of band; no .env or .dev.vars secrets are published.

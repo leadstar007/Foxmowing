@@ -1,0 +1,22 @@
+---
+import { ASSETS, BRAND, mainNav, regions, services } from "../data/site";
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a class="brand-lockup" href="/" aria-label={`${BRAND.name} home`}><img class="brand-logo compact" src={ASSETS.logoBanner} width="407" height="108" alt={BRAND.name} loading="lazy" /></a>
+      <p>Professional lawn mowing, gardening and property care through local Fox teams across Australia and New Zealand.</p>
+      <a href={BRAND.phoneHref}>{BRAND.phoneDisplay}</a>
+      <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
+    </div>
+    <div class="footer-col"><h2>Explore</h2>{mainNav.map((item) => <a href={item.href}>{item.label}</a>)}<a href="/faq">FAQs</a><a href="/contact">Contact</a></div>
+    <div class="footer-col"><h2>Services</h2>{services.slice(0, 6).map((service) => <a href={`/services/${service.slug}`}>{service.name}</a>)}</div>
+    <div class="footer-col"><h2>Regions</h2>{regions.map((region) => <a href={`/locations/${region.slug}`}>{region.short} Fox</a>)}</div>
+  </div>
+  <div class="container footer-bottom">
+    <span>© {new Date().getFullYear()} {BRAND.name}</span>
+    <nav aria-label="Legal"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/accessibility">Accessibility</a></nav>
+  </div>
+</footer>
+

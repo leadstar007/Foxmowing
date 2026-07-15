@@ -1,0 +1,20 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import FAQList from "../components/FAQList.astro";
+import FinalCTA from "../components/FinalCTA.astro";
+import ServiceCards from "../components/ServiceCards.astro";
+import { contentPages } from "../data/pages";
+import { faqs, services } from "../data/site";
+export function getStaticPaths(){ return contentPages.map((page)=>({ params:{slug:page.slug}, props:{page} })); }
+const { page } = Astro.props;
+const success = page.kind === "success";
+const legal = page.kind === "legal";
+const audience = page.slug === "commercial" ? "commercial" : "residential";
+---
+<BaseLayout title={page.title} description={page.description} image={page.image} noindex={success}>
+  <PageHero eyebrow={page.eyebrow} title={page.title} intro={page.intro} image={page.image} imageAlt={page.imageAlt} crumbs={[{label:"Home",href:"/"},{label:page.title}]} />
+  {page.kind === "faq" ? <section class="section-pad"><div class="container narrow"><FAQList items={faqs} large /></div></section> : <section class="section-pad"><div class="container detail-grid"><div class="detail-copy">{page.sections.map((section)=><section><h2>{section.heading}</h2><p>{section.body}</p>{section.points && <div class="check-list light">{section.points.map((point)=><span>✓ {point}</span>)}</div>}</section>)}</div><aside class="detail-aside"><div class="aside-card"><span class="eyebrow dark">Next step</span><h2>{success ? "Keep exploring" : legal ? "Need help?" : page.slug === "join-fox-team" ? "Territory enquiry" : "Ready to ask Fox?"}</h2><p>{success ? "Browse services, locations or advice while the relevant team reviews your submission." : legal ? "Contact the national team if you need this information in another format." : "Use the appropriate form so your details reach the correct team."}</p><a class="button button-dark" href={page.slug === "join-fox-team" ? "/join-fox/enquiry" : legal ? "/contact" : "/free-quote"}>{page.slug === "join-fox-team" ? "Enquire about a territory" : legal ? "Contact Fox" : "Get a free quote"}</a></div></aside></div></section>}
+  {(page.slug === "residential" || page.slug === "commercial") && <section class="section-pad section-soft"><div class="container"><div class="section-head"><span class="eyebrow dark">Relevant services</span><h2>Explore the work Fox can assess.</h2></div><ServiceCards services={services.filter((service)=>service.audiences.includes(audience)).slice(0,6)} /></div></section>}
+  {!legal && !success && <FinalCTA />}
+</BaseLayout>

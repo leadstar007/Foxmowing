@@ -1,0 +1,10 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "src/**/*", "tests/**/*", "astro.config.mjs"],
+  "exclude": ["dist", "client", "server", "drizzle", "drizzle.config.ts", "vite.config.ts", "node_modules"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": { "@/*": ["src/*"] },
+    "types": ["@cloudflare/workers-types"]
+  }
+}

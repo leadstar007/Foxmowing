@@ -1,0 +1,74 @@
+
+ ⛅️ wrangler 4.110.0
+────────────────────
+Resource location: local 
+
+Use --remote if you want to access the remote instance.
+
+🌀 Executing on local database ENQUIRIES_DB (REPLACE_WITH_CLOUDFLARE_D1_DATABASE_ID) from .wrangler/state/v3/d1:
+🌀 To execute on your remote database, add a --remote flag to your wrangler command.
+🚣 3 commands executed successfully.
+[
+  {
+    "results": [
+      {
+        "id": "5ce7270e-0e7d-45b6-8e2d-1990c4d3916a",
+        "kind": "franchise",
+        "email": "franchise-qa@example.com",
+        "created_at": 1784082652575
+      }
+    ],
+    "success": true,
+    "meta": {
+      "duration": 0
+    }
+  },
+  {
+    "results": [],
+    "success": true,
+    "meta": {
+      "duration": 0
+    }
+  },
+  {
+    "results": [
+      {
+        "remaining_qa_records": 0
+      }
+    ],
+    "success": true,
+    "meta": {
+      "duration": 0
+    }
+  }
+]
+
+ ⛅️ wrangler 4.110.0
+────────────────────
+Resource location: local 
+
+Use --remote if you want to access the remote instance.
+
+🌀 Executing on local database ENQUIRIES_DB (REPLACE_WITH_CLOUDFLARE_D1_DATABASE_ID) from .wrangler/state/v3/d1:
+🌀 To execute on your remote database, add a --remote flag to your wrangler command.
+🚣 2 commands executed successfully.
+[
+  {
+    "results": [],
+    "success": true,
+    "meta": {
+      "duration": 1
+    }
+  },
+  {
+    "results": [
+      {
+        "total_remaining_records": 0
+      }
+    ],
+    "success": true,
+    "meta": {
+      "duration": 0
+    }
+  }
+]

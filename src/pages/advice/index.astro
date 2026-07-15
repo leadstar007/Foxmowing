@@ -1,0 +1,5 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro"; import PageHero from "../../components/PageHero.astro"; import FinalCTA from "../../components/FinalCTA.astro"; import { ASSETS, adviceArticles } from "../../data/site";
+---
+<BaseLayout title="Lawn, garden and property advice" description="Practical Fox advice for planning lawn care, garden clean-ups and commercial grounds maintenance."><PageHero eyebrow="Fox advice" title="Plan the work before the quote." intro="Practical national guidance to help customers describe priorities, access and service expectations more clearly." image={ASSETS.premiumLawn} imageAlt="Healthy lawn and landscaped garden" crumbs={[{label:"Home",href:"/"},{label:"Advice"}]}/><section class="section-pad"><div class="container article-grid">{adviceArticles.map((article)=><article><span class="eyebrow dark">{article.category}</span><h2>{article.title}</h2><p>{article.excerpt}</p><a href={`/advice/${article.slug}`}>Read article →</a></article>)}</div></section><FinalCTA/></BaseLayout>
+

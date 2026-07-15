@@ -1,0 +1,5 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro"; import PageHero from "../../components/PageHero.astro"; import ServiceCards from "../../components/ServiceCards.astro"; import FinalCTA from "../../components/FinalCTA.astro"; import { ASSETS, services } from "../../data/site";
+---
+<BaseLayout title="Lawn, garden and property services" description="Explore Fox lawn mowing, gardening, hedging, clean-up, acreage and commercial grounds services."><PageHero eyebrow="Fox services" title="Practical outdoor care, clearly scoped." intro="Browse common residential and commercial services, then request a quote so local availability, access and the property condition can be assessed." image={ASSETS.hedging} imageAlt="Fox operator carrying out hedge maintenance" crumbs={[{label:"Home",href:"/"},{label:"Services"}]}/><section class="section-pad"><div class="container"><ServiceCards services={services}/></div></section><FinalCTA/></BaseLayout>
+

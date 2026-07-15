@@ -1,0 +1,9 @@
+Target: https://github.com/leadstar007/Foxmowing
+Branch: main
+Remote base: aa9770636b1b41d9c1968e93f44e941ac01586e9
+Existing tracked paths: LICENSE, README.md
+Initial all-clean-source comparison: one overlapping path (README.md), one remote-only path (LICENSE), and all other local paths were additions.
+Validated publication comparison: 62 selected active source paths, 2 remote tracked paths, 61 new paths, 1 remote-only retained path (LICENSE), and 1 overlap (README.md). Every selected local source path passed the file-existence check.
+Publication boundary: the active Astro/Cloudflare paths listed in docs/github-publish-manifest.txt. Retired React, Express, tRPC, Vite, and Drizzle migration-reference trees are excluded from the GitHub handoff. Environment values remain out of band; no .env or .dev.vars secret file is published.
+Conflict decision: retain the remote LICENSE; replace README.md with the expanded project README that preserves the original repository purpose statement.
+Synchronisation method: copy the manifest-selected clean source into the isolated remote clone, preserve .git history, commit on top of remote main, and push normally without force.

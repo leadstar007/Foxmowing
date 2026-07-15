@@ -1,0 +1,75 @@
+---
+import { ASSETS, BRAND, mainNav } from "../data/site";
+const path = Astro.url.pathname;
+const isActive = (href: string) => href === "/" ? path === "/" : path.startsWith(href);
+---
+
+<div class="utility-bar">
+  <div class="container utility-inner">
+    <p>Local outdoor care across Australia &amp; New Zealand</p>
+    <div class="utility-links">
+      <a href={BRAND.phoneHref}>Call {BRAND.phoneDisplay}</a>
+      <a href="/contact">Contact</a>
+      <a href="/advice">Advice</a>
+    </div>
+  </div>
+</div>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand-lockup" href="/" aria-label={`${BRAND.name} home`}>
+      <img class="brand-logo" src={ASSETS.logoBanner} width="407" height="108" alt={BRAND.name} />
+    </a>
+    <nav class="main-nav" aria-label="Primary navigation">
+      {mainNav.map((item) => <a class:list={["nav-link", { active: isActive(item.href) }]} href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>{item.label}</a>)}
+    </nav>
+    <div class="header-actions">
+      <a class="header-phone" href={BRAND.phoneHref} aria-label={`Call ${BRAND.name} on ${BRAND.phoneDisplay}`}>{BRAND.phoneDisplay}</a>
+      <a class="button button-primary" href="/free-quote">Get a free quote</a>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-controls="mobile-menu" aria-expanded="false">
+        <span aria-hidden="true">☰</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-drawer" id="mobile-menu" aria-hidden="true">
+  <button class="drawer-backdrop" type="button" tabindex="-1" aria-label="Close menu"></button>
+  <div class="drawer-panel" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+    <div class="drawer-head">
+      <img class="brand-logo compact" src={ASSETS.logoBanner} width="407" height="108" alt="" />
+      <button class="drawer-close" type="button" aria-label="Close menu">×</button>
+    </div>
+    <nav class="drawer-links" aria-label="Mobile navigation">
+      {mainNav.map((item) => <a href={item.href} aria-current={isActive(item.href) ? "page" : undefined}>{item.label}<span aria-hidden="true">→</span></a>)}
+      <a href="/contact">Contact<span aria-hidden="true">→</span></a>
+      <a href="/advice">Advice<span aria-hidden="true">→</span></a>
+    </nav>
+    <div class="drawer-actions">
+      <a class="button button-primary" href="/free-quote">Get a free quote</a>
+      <a class="button button-glass" href={BRAND.phoneHref}>Call {BRAND.phoneDisplay}</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
+  const drawer = document.querySelector<HTMLElement>(".mobile-drawer");
+  const closeButtons = drawer?.querySelectorAll<HTMLButtonElement>(".drawer-close, .drawer-backdrop");
+  const firstLink = drawer?.querySelector<HTMLAnchorElement>(".drawer-links a");
+  let priorFocus: Element | null = null;
+  const setOpen = (open: boolean) => {
+    if (!toggle || !drawer) return;
+    drawer.classList.toggle("open", open);
+    drawer.setAttribute("aria-hidden", String(!open));
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    document.body.classList.toggle("menu-open", open);
+    if (open) { priorFocus = document.activeElement; firstLink?.focus(); }
+    else if (priorFocus instanceof HTMLElement) priorFocus.focus();
+  };
+  toggle?.addEventListener("click", () => setOpen(toggle.getAttribute("aria-expanded") !== "true"));
+  closeButtons?.forEach((button) => button.addEventListener("click", () => setOpen(false)));
+  drawer?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setOpen(false)));
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape" && drawer?.classList.contains("open")) setOpen(false); });
+</script>
+

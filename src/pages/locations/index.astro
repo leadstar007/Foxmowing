@@ -1,0 +1,5 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro"; import PageHero from "../../components/PageHero.astro"; import FinalCTA from "../../components/FinalCTA.astro"; import { ASSETS, regions } from "../../data/site";
+---
+<BaseLayout title="Fox locations across Australia and New Zealand" description="Find your Fox Mowing & Gardening regional website for local services and contact information."><PageHero eyebrow="Fox locations" title="Find your local Fox region." intro="Use the national gateway to reach the appropriate state, territory or New Zealand website for local information and contact details." image={ASSETS.acreage} imageAlt="Australian property with a maintained lawn" crumbs={[{label:"Home",href:"/"},{label:"Locations"}]}/><section class="section-pad"><div class="container region-card-grid">{regions.map((region)=><a href={`/locations/${region.slug}`}><span>{region.short}</span><h2>{region.name}</h2><p>View the national gateway page and continue to the official regional Fox website.</p><b>Open region <span aria-hidden="true">→</span></b></a>)}</div></section><FinalCTA/></BaseLayout>
+

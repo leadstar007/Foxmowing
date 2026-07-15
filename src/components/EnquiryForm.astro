@@ -1,0 +1,63 @@
+---
+import { regions, services } from "../data/site";
+interface Props { kind: "customer" | "franchise"; }
+const { kind } = Astro.props;
+const customer = kind === "customer";
+---
+<form class="wizard" data-enquiry-form={kind} novalidate>
+  <div class="form-progress" aria-label="Form progress"><div class="active" data-progress="1"><span>1</span>Basics</div><div data-progress="2"><span>2</span>Details</div><div data-progress="3"><span>3</span>Contact</div></div>
+  <p class="form-message" data-form-message role="status" aria-live="polite"></p>
+  {customer ? (
+    <>
+      <fieldset data-step="1"><legend>What can Fox help with?</legend><p>Choose the enquiry type and closest service. The local team will confirm the final scope.</p>
+        <label>Enquiry type<select name="enquiryType" required><option value="">Choose one</option><option value="residential">Residential quote</option><option value="commercial">Commercial or strata</option><option value="general">General service question</option></select><small class="field-error" data-error="enquiryType"></small></label>
+        <label>Service<select name="service" required><option value="">Choose a service</option>{services.map((service)=><option value={service.slug}>{service.name}</option>)}</select><small class="field-error" data-error="service"></small></label>
+      </fieldset>
+      <fieldset data-step="2" hidden><legend>Tell us about the property.</legend><p>Include access, size, condition, timing and the outcome you want.</p>
+        <label>Property address<input name="address" autocomplete="street-address" required maxlength="240"/><small class="field-error" data-error="address"></small></label>
+        <div class="field-grid two"><label>Suburb or town<input name="suburb" autocomplete="address-level2" required maxlength="100"/><small class="field-error" data-error="suburb"></small></label><label>Postcode<input name="postcode" inputmode="numeric" autocomplete="postal-code" required maxlength="12"/><small class="field-error" data-error="postcode"></small></label></div>
+        <label>Project details<textarea name="details" rows="6" required maxlength="2500"></textarea><small class="field-error" data-error="details"></small></label>
+      </fieldset>
+    </>
+  ) : (
+    <>
+      <fieldset data-step="1"><legend>Where would you like to build?</legend><p>Choose the region closest to your preferred territory.</p>
+        <label>Preferred region<select name="region" required><option value="">Choose a region</option>{regions.map((region)=><option value={region.slug}>{region.name}</option>)}</select><small class="field-error" data-error="region"></small></label>
+        <label>Your postcode<input name="postcode" inputmode="numeric" autocomplete="postal-code" required maxlength="12"/><small class="field-error" data-error="postcode"></small></label>
+      </fieldset>
+      <fieldset data-step="2" hidden><legend>Tell us about your goals.</legend><p>This is an initial expression of interest, not a commitment.</p>
+        <label>Preferred timeframe<select name="timeframe" required><option value="">Choose one</option><option value="soon">As soon as practical</option><option value="three-to-six-months">Three to six months</option><option value="six-to-twelve-months">Six to twelve months</option><option value="researching">Researching options</option></select><small class="field-error" data-error="timeframe"></small></label>
+        <label>Your goals and relevant experience<textarea name="goals" rows="7" required maxlength="2500"></textarea><small class="field-error" data-error="goals"></small></label>
+      </fieldset>
+    </>
+  )}
+  <fieldset data-step="3" hidden><legend>Your contact details.</legend><p>Use details the appropriate Fox team can use for follow-up.</p>
+    <div class="field-grid two"><label>First name<input name="firstName" autocomplete="given-name" required maxlength="80"/><small class="field-error" data-error="firstName"></small></label><label>Last name<input name="lastName" autocomplete="family-name" required maxlength="80"/><small class="field-error" data-error="lastName"></small></label></div>
+    <div class="field-grid two"><label>Email<input name="email" type="email" autocomplete="email" required maxlength="180"/><small class="field-error" data-error="email"></small></label><label>Phone<input name="phone" type="tel" autocomplete="tel" required maxlength="30"/><small class="field-error" data-error="phone"></small></label></div>
+    <label class="consent"><input name="consent" type="checkbox" required/> <span>I agree that Fox may use these details to assess and respond to this enquiry. See the <a href="/privacy">privacy policy</a>.</span></label><small class="field-error" data-error="consent"></small>
+    <label class="honeypot" aria-hidden="true">Leave this field empty<input name="website" tabindex="-1" autocomplete="off"/></label>
+    <input type="hidden" name="turnstileToken" value="" />
+  </fieldset>
+  <div class="wizard-actions"><button class="button button-quiet" type="button" data-back hidden>Back</button><button class="button button-dark" type="button" data-next>Continue</button><button class="button button-dark" type="submit" data-submit hidden>Submit enquiry</button></div>
+</form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>("[data-enquiry-form]").forEach((form) => {
+    const kind = form.dataset.enquiryForm ?? "customer";
+    const steps = [...form.querySelectorAll<HTMLFieldSetElement>("[data-step]")];
+    const progress = [...form.querySelectorAll<HTMLElement>("[data-progress]")];
+    const back = form.querySelector<HTMLButtonElement>("[data-back]")!;
+    const next = form.querySelector<HTMLButtonElement>("[data-next]")!;
+    const submit = form.querySelector<HTMLButtonElement>("[data-submit]")!;
+    const message = form.querySelector<HTMLElement>("[data-form-message]")!;
+    let current = 0;
+    const show = (index: number) => { current = index; steps.forEach((step,i)=>step.hidden=i!==index); progress.forEach((item,i)=>item.classList.toggle("active",i<=index)); back.hidden=index===0; next.hidden=index===steps.length-1; submit.hidden=index!==steps.length-1; steps[index].querySelector<HTMLElement>("legend")?.focus(); };
+    const fieldError = (name: string, text: string) => { const field=form.elements.namedItem(name); const el=form.querySelector<HTMLElement>(`[data-error="${name}"]`); if(el) el.textContent=text; if(field instanceof HTMLElement) field.setAttribute("aria-invalid", text ? "true" : "false"); };
+    const validateStep = () => { let valid=true; const controls=Array.from(steps[current].querySelectorAll("input,select,textarea")) as Array<HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement>; controls.forEach((field)=>{ if(!field.checkValidity()){ fieldError(field.name, field.validationMessage); valid=false; } else fieldError(field.name,""); }); if(!valid) steps[current].querySelector<HTMLElement>("[aria-invalid='true']")?.focus(); return valid; };
+    next.addEventListener("click",()=>{ if(validateStep()) show(current+1); }); back.addEventListener("click",()=>show(current-1));
+    form.addEventListener("input",(event)=>{ const field=event.target; if(field instanceof HTMLInputElement||field instanceof HTMLSelectElement||field instanceof HTMLTextAreaElement) fieldError(field.name, field.checkValidity()?"":field.validationMessage); });
+    const params=new URLSearchParams(location.search); const audience=params.get("audience"), service=params.get("service"), region=params.get("region"); if(audience){const field=form.elements.namedItem("enquiryType");if(field instanceof HTMLSelectElement)field.value=audience;} if(service){const field=form.elements.namedItem("service");if(field instanceof HTMLSelectElement)field.value=service;} if(region){const field=form.elements.namedItem("region");if(field instanceof HTMLSelectElement)field.value=region;}
+    form.addEventListener("submit",async(event)=>{ event.preventDefault(); if(!validateStep())return; submit.disabled=true; message.textContent="Securely submitting your enquiry…"; const values=Object.fromEntries(new FormData(form).entries()) as Record<string,unknown>; values.consent=(form.elements.namedItem("consent") as HTMLInputElement).checked; try{ const response=await fetch(`/api/enquiries/${kind}`,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(values)}); const result=await response.json() as {ok:boolean;message?:string;redirect?:string;errors?:Record<string,string>}; if(!response.ok||!result.ok){ Object.entries(result.errors??{}).forEach(([name,text])=>fieldError(name,text)); message.textContent=result.message??"Please check the form and try again."; submit.disabled=false; return; } location.assign(result.redirect??"/"); }catch{ message.textContent="The enquiry could not be sent. Check your connection or call Fox."; submit.disabled=false; }});
+    show(0);
+  });
+</script>

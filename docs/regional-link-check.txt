@@ -1,0 +1,8 @@
+200	https://foxmowing-nsw.com.au/
+200	https://foxmowingqld.com.au/
+200	https://foxmowingact.com.au/
+200	https://foxmowingvic.com.au/
+200	https://www.foxmowingwa.com.au/
+200	https://foxmowingsa.com.au/
+200	https://foxmowingtas.com.au/
+200	https://www.foxmowing.co.nz/

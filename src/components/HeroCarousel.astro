@@ -1,0 +1,78 @@
+---
+import { heroSlides } from "../data/site";
+---
+
+<section class="home-hero hero-carousel" aria-roledescription="carousel" aria-label="Fox services and franchise opportunities" data-carousel data-preload-src={heroSlides[1].image.desktop1200.webp} tabindex="0">
+  <div class="hero-slides">
+    {heroSlides.map((slide, index) => (
+      <article class:list={["hero-slide", { active: index === 0 }]} data-slide aria-hidden={index === 0 ? "false" : "true"} inert={index === 0 ? undefined : true} aria-label={`${index + 1} of ${heroSlides.length}`}>
+        <picture class="hero-media">
+          <source media="(max-width: 640px)" type="image/avif" srcset={slide.image.mobile600.avif} />
+          <source media="(max-width: 640px)" type="image/webp" srcset={slide.image.mobile600.webp} />
+          <source media="(max-width: 960px)" type="image/avif" srcset={slide.image.mobile900.avif} />
+          <source media="(max-width: 960px)" type="image/webp" srcset={slide.image.mobile900.webp} />
+          <source media="(max-width: 1320px)" type="image/avif" srcset={slide.image.desktop1200.avif} />
+          <source media="(max-width: 1320px)" type="image/webp" srcset={slide.image.desktop1200.webp} />
+          <source type="image/avif" srcset={slide.image.desktop1600.avif} />
+          <img src={slide.image.desktop1600.webp} width="1600" height="900" alt={slide.imageAlt} loading={index === 0 ? "eager" : "lazy"} fetchpriority={index === 0 ? "high" : "auto"} decoding="async" />
+        </picture>
+        <div class="hero-scrim"></div><div class="hero-speed-lines" aria-hidden="true"></div>
+        <div class="container hero-content">
+          <div class="hero-copy">
+            <span class="eyebrow">Fox Mowing &amp; Gardening</span>
+            <h1>{slide.headline}</h1>
+            <p>{slide.supportingText}</p>
+            <div class="hero-actions"><a class="button button-primary" href={slide.primary.href}>{slide.primary.label}</a><a class="button button-glass" href={slide.secondary.href}>{slide.secondary.label}</a></div>
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
+  <div class="hero-controls" aria-label="Hero controls">
+    <button type="button" data-prev aria-label="Show previous slide">←</button>
+    <div class="hero-dots" role="tablist" aria-label="Choose a slide">
+      {heroSlides.map((slide, index) => <button type="button" role="tab" data-dot={index} aria-label={`Show slide ${index + 1}: ${slide.headline}`} aria-selected={index === 0 ? "true" : "false"} tabindex={index === 0 ? 0 : -1}><span></span></button>)}
+    </div>
+    <button type="button" data-next aria-label="Show next slide">→</button>
+    <button type="button" data-pause aria-label="Pause automatic slide rotation" aria-pressed="false"><span data-pause-icon>Ⅱ</span></button>
+  </div>
+  <p class="sr-only" aria-live="polite" aria-atomic="true" data-live>{`Slide 1 of ${heroSlides.length}: ${heroSlides[0].headline}`}</p>
+</section>
+
+<script>
+  const carousel = document.querySelector<HTMLElement>("[data-carousel]");
+  if (carousel) {
+    const slides = [...carousel.querySelectorAll<HTMLElement>("[data-slide]")];
+    const dots = [...carousel.querySelectorAll<HTMLButtonElement>("[data-dot]")];
+    const pauseButton = carousel.querySelector<HTMLButtonElement>("[data-pause]");
+    const pauseIcon = carousel.querySelector<HTMLElement>("[data-pause-icon]");
+    const live = carousel.querySelector<HTMLElement>("[data-live]");
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let active = 0, timer: number | undefined, manuallyPaused = reduced, hovering = false, touchStart = 0;
+    const announce = () => { if (live) live.textContent = `Slide ${active + 1} of ${slides.length}: ${slides[active].querySelector("h1")?.textContent ?? ""}`; };
+    const show = (next: number, userInitiated = false) => {
+      active = (next + slides.length) % slides.length;
+      slides.forEach((slide, index) => { const selected = index === active; slide.classList.toggle("active", selected); slide.setAttribute("aria-hidden", String(!selected)); slide.toggleAttribute("inert", !selected); });
+      dots.forEach((dot, index) => { dot.setAttribute("aria-selected", String(index === active)); dot.tabIndex = index === active ? 0 : -1; });
+      if (userInitiated) announce();
+      restart();
+    };
+    const stop = () => { if (timer) window.clearTimeout(timer); timer = undefined; };
+    const restart = () => { stop(); if (!manuallyPaused && !hovering && !document.hidden) timer = window.setTimeout(() => show(active + 1), 6000); };
+    const setPaused = (paused: boolean) => { manuallyPaused = paused; pauseButton?.setAttribute("aria-pressed", String(paused)); pauseButton?.setAttribute("aria-label", paused ? "Play automatic slide rotation" : "Pause automatic slide rotation"); if (pauseIcon) pauseIcon.textContent = paused ? "▶" : "Ⅱ"; restart(); };
+    carousel.querySelector("[data-prev]")?.addEventListener("click", () => show(active - 1, true));
+    carousel.querySelector("[data-next]")?.addEventListener("click", () => show(active + 1, true));
+    dots.forEach((dot, index) => dot.addEventListener("click", () => show(index, true)));
+    pauseButton?.addEventListener("click", () => setPaused(!manuallyPaused));
+    carousel.addEventListener("mouseenter", () => { hovering = true; stop(); });
+    carousel.addEventListener("mouseleave", () => { hovering = false; restart(); });
+    carousel.addEventListener("focusin", stop);
+    carousel.addEventListener("focusout", () => window.setTimeout(() => { if (!carousel.contains(document.activeElement)) restart(); }, 0));
+    carousel.addEventListener("keydown", (event) => { if (event.key === "ArrowLeft") { event.preventDefault(); show(active - 1, true); } if (event.key === "ArrowRight") { event.preventDefault(); show(active + 1, true); } });
+    carousel.addEventListener("touchstart", (event) => { touchStart = event.changedTouches[0].clientX; }, { passive: true });
+    carousel.addEventListener("touchend", (event) => { const delta = event.changedTouches[0].clientX - touchStart; if (Math.abs(delta) > 45) show(active + (delta < 0 ? 1 : -1), true); }, { passive: true });
+    document.addEventListener("visibilitychange", restart);
+    window.requestAnimationFrame(() => { const preload = new Image(); preload.src = carousel.dataset.preloadSrc ?? ""; restart(); });
+    setPaused(manuallyPaused);
+  }
+</script>

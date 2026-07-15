@@ -1,0 +1,156 @@
+## Migration application
+
+ ⛅️ wrangler 4.110.0
+────────────────────
+Resource location: local 
+
+Use --remote if you want to access the remote instance.
+
+Migrations to be applied:
+┌────────────────────┐
+│ name               │
+├────────────────────┤
+│ 0001_enquiries.sql │
+└────────────────────┘
+? About to apply 1 migration(s)
+Your database may not be available to serve requests during the migration, continue?
+🤖 Using fallback value in non-interactive context: yes
+🌀 Executing on local database ENQUIRIES_DB (REPLACE_WITH_CLOUDFLARE_D1_DATABASE_ID) from .wrangler/qa-state/v3/d1:
+🌀 To execute on your remote database, add a --remote flag to your wrangler command.
+🚣 3 commands executed successfully.
+┌────────────────────┬────────┐
+│ name               │ status │
+├────────────────────┼────────┤
+│ 0001_enquiries.sql │ ✅     │
+└────────────────────┴────────┘
+
+## Enquiries table columns
+
+ ⛅️ wrangler 4.110.0
+────────────────────
+Resource location: local 
+
+Use --remote if you want to access the remote instance.
+
+🌀 Executing on local database ENQUIRIES_DB (REPLACE_WITH_CLOUDFLARE_D1_DATABASE_ID) from .wrangler/qa-state/v3/d1:
+🌀 To execute on your remote database, add a --remote flag to your wrangler command.
+🚣 1 command executed successfully.
+[
+  {
+    "results": [
+      {
+        "cid": 0,
+        "name": "id",
+        "type": "TEXT",
+        "notnull": 0,
+        "dflt_value": null,
+        "pk": 1
+      },
+      {
+        "cid": 1,
+        "name": "kind",
+        "type": "TEXT",
+        "notnull": 1,
+        "dflt_value": null,
+        "pk": 0
+      },
+      {
+        "cid": 2,
+        "name": "created_at",
+        "type": "INTEGER",
+        "notnull": 1,
+        "dflt_value": null,
+        "pk": 0
+      },
+      {
+        "cid": 3,
+        "name": "status",
+        "type": "TEXT",
+        "notnull": 1,
+        "dflt_value": "'new'",
+        "pk": 0
+      },
+      {
+        "cid": 4,
+        "name": "source",
+        "type": "TEXT",
+        "notnull": 1,
+        "dflt_value": null,
+        "pk": 0
+      },
+      {
+        "cid": 5,
+        "name": "payload_json",
+        "type": "TEXT",
+        "notnull": 1,
+        "dflt_value": null,
+        "pk": 0
+      }
+    ],
+    "success": true,
+    "meta": {
+      "duration": 0
+    }
+  }
+]
+
+## Enquiries indexes
+
+ ⛅️ wrangler 4.110.0
+────────────────────
+Resource location: local 
+
+Use --remote if you want to access the remote instance.
+
+🌀 Executing on local database ENQUIRIES_DB (REPLACE_WITH_CLOUDFLARE_D1_DATABASE_ID) from .wrangler/qa-state/v3/d1:
+🌀 To execute on your remote database, add a --remote flag to your wrangler command.
+🚣 1 command executed successfully.
+[
+  {
+    "results": [
+      {
+        "seq": 0,
+        "name": "enquiries_kind_created_idx",
+        "unique": 0,
+        "origin": "c",
+        "partial": 0
+      },
+      {
+        "seq": 1,
+        "name": "sqlite_autoindex_enquiries_1",
+        "unique": 1,
+        "origin": "pk",
+        "partial": 0
+      }
+    ],
+    "success": true,
+    "meta": {
+      "duration": 0
+    }
+  }
+]
+
+## Empty data verification
+
+ ⛅️ wrangler 4.110.0
+────────────────────
+Resource location: local 
+
+Use --remote if you want to access the remote instance.
+
+🌀 Executing on local database ENQUIRIES_DB (REPLACE_WITH_CLOUDFLARE_D1_DATABASE_ID) from .wrangler/qa-state/v3/d1:
+🌀 To execute on your remote database, add a --remote flag to your wrangler command.
+🚣 1 command executed successfully.
+[
+  {
+    "results": [
+      {
+        "enquiry_count": 0
+      }
+    ],
+    "success": true,
+    "meta": {
+      "duration": 0
+    }
+  }
+]
