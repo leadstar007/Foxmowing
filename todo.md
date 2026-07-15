@@ -43,7 +43,7 @@
 - [x] Update sitemap, crawler files, redirect documentation, image register, and owner guide where the new content affects them
 - [x] Run unit tests, TypeScript checks, production build, route checks, database checks, and accessibility review after revision
 - [x] Verify revised desktop and mobile presentation and resolve visible regressions
-- [ ] Review todo.md, mark the revision items complete, and save a new final checkpoint
+- [x] Review todo.md, mark the revision items complete, and save a new final checkpoint
 
 ## Astro 7 + Cloudflare Workers Conversion
 
@@ -62,7 +62,7 @@
 - [x] Write and run Vitest coverage for shared validation and form persistence behaviour
 - [x] Run Astro checks, TypeScript checks, production build, route inspection, and Cloudflare configuration validation
 - [x] Restart the managed preview on Astro and verify desktop and mobile visuals, hero controls, navigation, regional links, form submissions, success routes, keyboard operation, and reduced motion
-- [ ] Review the full TODO history, mark every completed conversion item, save a new checkpoint, and deliver the updated project version
+- [x] Review the full TODO history, mark every completed conversion item, save a new checkpoint, and deliver the updated project version
 
 ## Final release gap closure
 
@@ -70,16 +70,16 @@
 - [x] Complete isolated end-to-end customer and franchise submissions, confirm distinct success routes, and remove the QA records afterward
 - [x] Verify the hero, navigation, and form journeys by keyboard only
 - [x] Verify reduced-motion media-query behaviour for hero rotation and non-essential transitions
-- [ ] Save the final checkpoint only after every release gap has passed
+- [x] Save the final checkpoint only after every release gap has passed
 
 ## GitHub handoff — leadstar007/Foxmowing
 
 - [x] Verify authenticated GitHub access without exposing credentials in chat or project files
 - [x] Inspect the remote repository, default branch, existing commits, and working tree before any push
-- [ ] Preserve existing remote history and resolve any file or branch conflicts deliberately
+- [x] Preserve existing remote history and resolve any file or branch conflicts deliberately (original commits `e12637c` and `aa97706` retained; remote `LICENSE` preserved unchanged)
 - [x] Add a GitHub-ready README and exclude generated Astro, Wrangler, local database, credential, dependency, and build artifacts
 - [x] Compare the completed project against remote `main`, choose and document the history-preserving synchronisation strategy, and identify any path conflicts (62 selected paths validated: 61 additions, retained `LICENSE`, intentional `README.md` replacement)
-- [ ] Merge the remote repository history into the completed project without rewriting its prior commits
-- [ ] Push the completed Astro/Cloudflare project to the agreed repository branch
-- [ ] Verify the resulting remote `main` history, commit identifier, and clean branch state after the push
-- [ ] Confirm the remote commit and provide the final repository URL and branch in the owner handoff
+- [x] Merge the remote repository history into the completed project without rewriting its prior commits
+- [x] Push the completed Astro/Cloudflare project to the agreed repository branch
+- [x] Verify the resulting remote `main` history, commit identifier, and clean branch state after the push (`84a6df47000b13f1289bccf9952ff9f6b6d94e85` publication commit verified)
+- [x] Confirm the remote commit and provide the final repository URL and branch in the owner handoff
